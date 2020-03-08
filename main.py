@@ -113,7 +113,7 @@ def updateCursor(r, c):
     cursor_y = r * 62 + 240
     return (cursor_x, cursor_y)
 
-def updateDirection(code, r, c):
+def updateDirection(code, r, c, keydict, text, isShift):
     if code == 0: # LEFT
         c = max(c-1, 0)
     elif code == 1: # RIGHT
@@ -122,6 +122,8 @@ def updateDirection(code, r, c):
         r = max(r-1, 0)
     elif code == 3: # DOWN
         r = min(r+1, MAXROWS - 1) 
+    elif code == 4:
+        text, isShift = enterCharacter(r, c, keydict, text, isShift)
     else:
         print("Uh oh! Where are you looking?")
     return (r, c)
@@ -222,6 +224,7 @@ while 1:
         else:
             counter += 1;
             if (counter >= 5):
+                input_dir = 4
                 print(4)
                 counter = 0
 
@@ -260,20 +263,21 @@ while 1:
 
     # WAIT FOR KEYBOARD
     k = cv2.waitKey(30) & 0xff
+    # code, r, c, keydict, text, isShift
     if k == 27:
         break
     if k == 119 or k == 87: # w - UP
-        user_keyrow, user_keycol = updateDirection(2, user_keyrow, user_keycol)
+        user_keyrow, user_keycol = updateDirection(2, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 65 or k == 97: # a - LEFT
-        user_keyrow, user_keycol = updateDirection(0, user_keyrow, user_keycol)
+        user_keyrow, user_keycol = updateDirection(0, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 84 or k == 115: # s - DOWN
-        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol)
+        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 68 or k == 100: # d - RIGHT
-        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
+        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 32: # d - SPACE
         text, isShift = enterCharacter(user_keyrow, user_keycol, keydict, text, isShift)
     else:
-        user_keyrow, user_keycol = updateDirection(input_dir, user_keyrow, user_keycol)
+        user_keyrow, user_keycol = updateDirection(input_dir, user_keyrow, user_keycol, keydict, text, isShift)
     cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
 
     if (input_dir != None):

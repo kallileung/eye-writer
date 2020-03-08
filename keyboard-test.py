@@ -17,7 +17,7 @@ fontScale = 2
 color = (0,0,0)
 thickness = 4 # font 2px
 
-window_name = 'Image'
+window_name = 'Writer'
 text = 'some text that is a very long text that eventually becomes a paragraph. Let us see how well it can handle long paragraphs'
 
 KEYBOARD_NORMAL = cv2.imread('img/keyreg.png')
@@ -41,10 +41,29 @@ print(KEYBOARD_SHIFT.shape)
 
 textRatio = 2.0 / 3.0
 
+cursorPos = ()
 
 isShift = False
 
 keyboard = None
+
+## INITIALIZE REGULAR KEYBOARD
+r1 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', '\n']
+r2 = ['TAB', '\'', ',', '.', 'P', 'Y', 'F', 'G', 'C', 'R', 'L', '/', '=', '\\']
+r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '-', 'ENTER', 'CMD']
+r4 = ['SHIFT', ';', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', ' ', 'CTRL', 'ALT']
+
+keydict_reg = [r1, r2, r3, r4]
+
+## INITIALIZE SHIFTED KEYBOARD
+r1 = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', '\n']
+r2 = ['TAB', '"', '<', '>', 'P', 'Y', 'F', 'G', 'C', 'R', 'L', '?', '+', '|']
+r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '_', 'ENTER', 'CMD']
+r4 = ['SHIFT', ':', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', ' ', 'CTRL', 'ALT']
+
+keydict_shift = [r1, r2, r3, r4]
+
+print(keydict_reg[2][4])
 
 while 1:
     if isShift:

@@ -77,13 +77,14 @@ def updateDirection(code, r, c):
         print("Uh oh! Where are you looking?")
     return (r, c)
 
-def enterCharacter(r, c, dic, text):
+def enterCharacter(r, c, dic, text, isShift):
     char = dic[r][c]
-    text += char
-    print(char)
     if char == 'SHIFT':
         isShift = not isShift
-    return text
+        return text, isShift
+    text += char
+    print(char)
+    return text, isShift
 
 ## INITIALIZE REGULAR KEYBOARD
 r1 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', '\n']
@@ -179,7 +180,7 @@ while 1:
     if k == 68 or k == 100: # d - RIGHT
         user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
     if k == 32: # d - SPACE
-        text = enterCharacter(user_keyrow, user_keycol, keydict, text)
+        text, isShift = enterCharacter(user_keyrow, user_keycol, keydict, text, isShift)
     cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
 
 cap.release()

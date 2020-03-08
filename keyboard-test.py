@@ -55,13 +55,13 @@ c = 0
 MAXROWS = 4
 MAXCOLS = 14
 
-cursor_x = user_keyrow * 60 + 40
-cursor_y = user_keycol * 55 + 240
+cursor_x = user_keyrow * 59 + 41
+cursor_y = user_keycol * 62 + 240
 cursor_len = 52
 
 def updateCursor(r, c):
-    cursor_x = c * 60 + 40
-    cursor_y = r * 55 + 240
+    cursor_x = c * 59 + 41
+    cursor_y = r * 62 + 240
     return (cursor_x, cursor_y)
 
 def updateDirection(code, r, c):

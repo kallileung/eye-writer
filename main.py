@@ -154,11 +154,6 @@ keydict_shift = [r1, r2, r3, r4]
 input_dir = None
 
 while 1:
-    ## CHECK INPUT HERE
-    if (input_dir != None):
-        updateDirection(input_dir)
-        input_dir = None
-
     if isShift:
         keyboard = KEYBOARD_SHIFT
         keydict = keydict_shift
@@ -206,14 +201,18 @@ while 1:
                             # moving left right
                             # video is mirrored so direction changes
                             if (diff_x > 0):
+                                input_dir = 0
                                 print(0)
                             else:
+                                input_dir = 1
                                 print(1)
                         else:
                             # moving up and down
                             if (diff_y > 0):
+                                input_dir = 3
                                 print(3)
                             else:
+                                input_dir = 2
                                 print(2)
                 lastPoint = center
                 # pupil[2] is radius
@@ -273,7 +272,12 @@ while 1:
         user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
     if k == 32: # d - SPACE
         text, isShift = enterCharacter(user_keyrow, user_keycol, keydict, text, isShift)
+    else:
+        user_keyrow, user_keycol = updateDirection(input_dir, user_keyrow, user_keycol)
     cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
+
+    if (input_dir != None):
+        input_dir = None
 
 cap.release()
 cv2.destroyAllWindows()

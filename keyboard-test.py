@@ -48,10 +48,39 @@ isShift = False
 keyboard = None
 keydict = None
 
+user_keyrow = 0
+user_keycol = 0
+r = 0
+c = 0
+MAXROWS = 4
+MAXCOLS = 14
+
+cursor_x = user_keyrow * 60 + 40
+cursor_y = user_keycol * 55 + 240
+cursor_len = 52
+
+def updateCursor(r, c):
+    cursor_x = r * 60 + 40
+    cursor_y = c * 55 + 240
+    return (cursor_x, cursor_y)
+
+def updateDirection(code, r, c):
+    if code == 1: # DOWN
+        r = min(r+1, MAXROWS - 1) 
+    elif code == 2: # RIGHT
+        c = min(c+1, MAXCOLS - 1)
+    elif code == 3: # UP
+        r = max(r-1, 0)
+    elif code == 4: # LEFT
+        c = max(c-1, 0)
+    else:
+        print("Uh oh! Where are you looking?")
+    return (r, c)
+
 ## INITIALIZE REGULAR KEYBOARD
 r1 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', '\n']
 r2 = ['TAB', '\'', ',', '.', 'P', 'Y', 'F', 'G', 'C', 'R', 'L', '/', '=', '\\']
-r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '-', 'ENTER', 'CMD']
+r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '-', '\n', 'CMD']
 r4 = ['SHIFT', ';', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', ' ', 'CTRL', 'ALT']
 
 keydict_reg = [r1, r2, r3, r4]
@@ -59,12 +88,19 @@ keydict_reg = [r1, r2, r3, r4]
 ## INITIALIZE SHIFTED KEYBOARD
 r1 = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', '\n']
 r2 = ['TAB', '"', '<', '>', 'P', 'Y', 'F', 'G', 'C', 'R', 'L', '?', '+', '|']
-r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '_', 'ENTER', 'CMD']
+r3 = ['CAPS', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '_', '\n', 'CMD']
 r4 = ['SHIFT', ':', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', ' ', 'CTRL', 'ALT']
 
 keydict_shift = [r1, r2, r3, r4]
 
+input_dir = None
+
 while 1:
+    ## CHECK INPUT HERE
+    if (input_dir != None):
+        updateDirection(input_dir)
+        input_dir = None
+
     if isShift:
         keyboard = KEYBOARD_SHIFT
         keydict = keydict_shift
@@ -117,6 +153,8 @@ while 1:
 
     display_frame = np.vstack((cam_text_frame, keyboard))
 
+    print("cursor x, y: (%d, %d)" % (cursor_x, cursor_y)) 
+    cv2.rectangle(display_frame,(cursor_x, cursor_y),(cursor_x+cursor_len,cursor_y+cursor_len),(0,255,255),2)
     # DISPLAY TO WINDOW
     cv2.imshow(window_name, display_frame)
 
@@ -124,6 +162,16 @@ while 1:
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
+    if k == 119 or k == 87: # w - UP
+        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol)
+    if k == 65 or k == 97: # a - LEFT
+        user_keyrow, user_keycol = updateDirection(4, user_keyrow, user_keycol)
+    if k == 84 or k == 115: # s - DOWN
+        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
+    if k == 68 or k == 100: # d - RIGHT
+        user_keyrow, user_keycol = updateDirection(2, user_keyrow, user_keycol)
+    cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
 
 cap.release()
 cv2.destroyAllWindows()
+

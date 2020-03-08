@@ -60,8 +60,8 @@ cursor_y = user_keycol * 55 + 240
 cursor_len = 52
 
 def updateCursor(r, c):
-    cursor_x = r * 60 + 40
-    cursor_y = c * 55 + 240
+    cursor_x = c * 60 + 40
+    cursor_y = r * 55 + 240
     return (cursor_x, cursor_y)
 
 def updateDirection(code, r, c):

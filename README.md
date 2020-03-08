@@ -5,7 +5,7 @@
 Computer vision to process eyeball movements into keyboard input.
 
 ## Dependencies & Installation:
-- To run this project, you will need to install Python & OpenCV
+- To run this project, you will need to install Python, OpenCV, & numpy
 
 ## Usage
 `python main.py`

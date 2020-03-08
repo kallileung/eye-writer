@@ -46,6 +46,7 @@ cursorPos = ()
 isShift = False
 
 keyboard = None
+keydict = None
 
 ## INITIALIZE REGULAR KEYBOARD
 r1 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', '\n']
@@ -63,13 +64,13 @@ r4 = ['SHIFT', ':', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', ' ', 'CTRL', 'A
 
 keydict_shift = [r1, r2, r3, r4]
 
-print(keydict_reg[2][4])
-
 while 1:
     if isShift:
         keyboard = KEYBOARD_SHIFT
+        keydict = keydict_shift
     else:
         keyboard = KEYBOARD_NORMAL
+        keydict = keydict_reg
 
     # clear rectangle every loop
     rect = cv2.imread('img/empty_rect.png')

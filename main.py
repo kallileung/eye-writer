@@ -67,7 +67,7 @@ color = (0,0,0)
 thickness = 4 # font 2px
 
 window_name = 'Writer'
-text = 'some text that is a very long text that eventually becomes a paragraph. Let us see how well it can handle long paragraphs'
+text = 'Input some text: '
 
 KEYBOARD_NORMAL = cv2.imread('img/keyreg.png')
 KEYBOARD_SHIFT = cv2.imread('img/keyshift.png')
@@ -126,7 +126,7 @@ def updateDirection(code, r, c, keydict, text, isShift):
         text, isShift = enterCharacter(r, c, keydict, text, isShift)
     else:
         print("Uh oh! Where are you looking?")
-    return (r, c)
+    return (r, c, text, isShift)
 
 def enterCharacter(r, c, dic, text, isShift):
     char = dic[r][c]
@@ -267,17 +267,17 @@ while 1:
     if k == 27:
         break
     if k == 119 or k == 87: # w - UP
-        user_keyrow, user_keycol = updateDirection(2, user_keyrow, user_keycol, keydict, text, isShift)
+        user_keyrow, user_keycol, text, isShift = updateDirection(2, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 65 or k == 97: # a - LEFT
-        user_keyrow, user_keycol = updateDirection(0, user_keyrow, user_keycol, keydict, text, isShift)
+        user_keyrow, user_keycol, text, isShift = updateDirection(0, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 84 or k == 115: # s - DOWN
-        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol, keydict, text, isShift)
+        user_keyrow, user_keycol, text, isShift = updateDirection(3, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 68 or k == 100: # d - RIGHT
-        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol, keydict, text, isShift)
+        user_keyrow, user_keycol, text, isShift = updateDirection(1, user_keyrow, user_keycol, keydict, text, isShift)
     if k == 32: # d - SPACE
         text, isShift = enterCharacter(user_keyrow, user_keycol, keydict, text, isShift)
     else:
-        user_keyrow, user_keycol = updateDirection(input_dir, user_keyrow, user_keycol, keydict, text, isShift)
+        user_keyrow, user_keycol, text, isShift = updateDirection(input_dir, user_keyrow, user_keycol, keydict, text, isShift)
     cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
 
     if (input_dir != None):

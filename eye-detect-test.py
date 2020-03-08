@@ -12,6 +12,7 @@ eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
 cap = cv2.VideoCapture(0)
 centers = []
 lastPoint = (0, 0)
+counter = 0
 
 def getLeftEye(eyes):
     leftmost = 99999999
@@ -68,6 +69,7 @@ while 1:
         
         eyes = eye_cascade.detectMultiScale(roi_gray, 1.3, 4, 0)
         if (np.size(eyes) != 0):
+            counter = 0
             for (ex,ey,ew,eh) in eyes:
                 cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
             eyeRect = getLeftEye(eyes)
@@ -101,6 +103,11 @@ while 1:
                 cv2.circle(img, (x + ex + cx, y + ey+ cy), int(pupil[2]), (0,0,255) ,2)
                 # cv2.circle(eyeCropped, center, int(pupil[2]), (255,255,255),2)
             #cv2.imshow('Eye', eyeCropped)
+        else:
+            counter += 1;
+            if (counter >= 15):
+                print(4)
+                counter = 0
 
 
     cv2.imshow('img',img)

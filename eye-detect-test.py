@@ -1,4 +1,5 @@
 import numpy as np
+import time
 from scipy import signal
 import cv2
 
@@ -58,6 +59,8 @@ def stabilize(points, windowSize):
     return (int(sumX), int(sumY))
 
 while 1:
+    # cap.set(cv2.CAP_PROP_FPS, 2)
+    time.sleep(0.1)
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 4)
@@ -86,18 +89,22 @@ while 1:
                     (lx, ly) = lastPoint
                     diff_x = (cx - lx)
                     diff_y = (cy - ly) # harder to move in up down
-                    if (np.absolute(diff_x) > np.absolute(diff_y)):
-                        # moving left right
-                        if (diff_x > 0):
-                            print(1)
+                    # print(diff_x)
+                    # print(diff_y)
+                    if ((np.absolute(diff_x) > 5) or (np.absolute(diff_y) > 5)):
+                        if (np.absolute(diff_x) > np.absolute(diff_y)):
+                            # moving left right
+                            # video is mirrored so direction changes
+                            if (diff_x > 0):
+                                print(0)
+                            else:
+                                print(1)
                         else:
-                            print(0)
-                    else:
-                        # moving up and down
-                        if (diff_y > 0):
-                            print(3)
-                        else:
-                            print(2)
+                            # moving up and down
+                            if (diff_y > 0):
+                                print(3)
+                            else:
+                                print(2)
                 lastPoint = center
                 # pupil[2] is radius
                 cv2.circle(img, (x + ex + cx, y + ey+ cy), int(pupil[2]), (0,0,255) ,2)
@@ -105,7 +112,7 @@ while 1:
             #cv2.imshow('Eye', eyeCropped)
         else:
             counter += 1;
-            if (counter >= 15):
+            if (counter >= 5):
                 print(4)
                 counter = 0
 

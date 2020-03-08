@@ -1,7 +1,6 @@
 # eye-writer
 
 ## cmd-f 2020 project
-## Authors: Ada Li, Sophia Shen, Cindy Tu, Kalli Leung
 
 Computer vision to process eyeball movements into keyboard input.
 

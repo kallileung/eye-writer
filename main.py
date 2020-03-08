@@ -115,13 +115,23 @@ def updateCursor(r, c):
 
 def updateDirection(code, r, c, keydict, text, isShift):
     if code == 0: # LEFT
-        c = max(c-1, 0)
+        if (c - 1) < 0:
+            c = MAXCOLS
+        c = c-1
     elif code == 1: # RIGHT
-        c = min(c+1, MAXCOLS - 1)
+        if (c + 1) > (MAXCOLS - 1):
+            c = 0
+        else:
+            c = c+1
     elif code == 2: # UP
-        r = max(r-1, 0)
+        if (r - 1) < 0:
+            r = MAXROWS
+        r = r-1
     elif code == 3: # DOWN
-        r = min(r+1, MAXROWS - 1) 
+        if (r + 1) > (MAXROWS - 1):
+            r = 0
+        else:
+            r = r + 1
     elif code == 4:
         text, isShift = enterCharacter(r, c, keydict, text, isShift)
     else:

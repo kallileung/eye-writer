@@ -9,3 +9,6 @@ Computer vision to process eyeball movements into keyboard input.
 
 ## Usage
 `python main.py`
+
+## Acknowledgments:
+https://abnerrjo.github.io/blog/2017/01/28/eyeball-tracking-for-mouse-control-in-opencv/

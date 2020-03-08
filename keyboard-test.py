@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import textwrap
 
 # multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
 
@@ -12,12 +13,12 @@ cap = cv2.VideoCapture(0)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 # fontScale 
-fontScale = 5
+fontScale = 2
 color = (0,0,0)
-thickness = 2 # font 2px
+thickness = 4 # font 2px
 
 window_name = 'Image'
-text = 'some text'
+text = 'some text that is a very long text that eventually becomes a paragraph. Let us see how well it can handle long paragraphs'
 
 KEYBOARD_NORMAL = cv2.imread('img/keyreg.png')
 KEYBOARD_SHIFT = cv2.imread('img/keyshift.png')
@@ -69,9 +70,14 @@ while 1:
             cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
 
     # RENDER TEXT
-    org = (30, 30)
-    rect = cv2.putText(rect, text, org, font, fontScale,  
+    lines = textwrap.wrap(text, 45)
+    x_coord = 20
+    y_coord = 50
+    for line in lines:
+        org = (x_coord, y_coord)
+        rect = cv2.putText(rect, line, org, font, fontScale,  
                  color, thickness, cv2.LINE_AA, False)
+        y_coord += 70
 
     # RESIZING
     scale = cam_height * 1.0 / img.shape[0]

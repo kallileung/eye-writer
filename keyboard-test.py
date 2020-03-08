@@ -65,17 +65,25 @@ def updateCursor(r, c):
     return (cursor_x, cursor_y)
 
 def updateDirection(code, r, c):
-    if code == 1: # DOWN
-        r = min(r+1, MAXROWS - 1) 
-    elif code == 2: # RIGHT
-        c = min(c+1, MAXCOLS - 1)
-    elif code == 3: # UP
-        r = max(r-1, 0)
-    elif code == 4: # LEFT
+    if code == 0: # LEFT
         c = max(c-1, 0)
+    elif code == 1: # RIGHT
+        c = min(c+1, MAXCOLS - 1)
+    elif code == 2: # UP
+        r = max(r-1, 0)
+    elif code == 3: # DOWN
+        r = min(r+1, MAXROWS - 1) 
     else:
         print("Uh oh! Where are you looking?")
     return (r, c)
+
+def enterCharacter(r, c, dic, text):
+    char = dic[r][c]
+    text += char
+    print(char)
+    if char == 'SHIFT':
+        isShift = not isShift
+    return text
 
 ## INITIALIZE REGULAR KEYBOARD
 r1 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', '\n']
@@ -163,13 +171,15 @@ while 1:
     if k == 27:
         break
     if k == 119 or k == 87: # w - UP
-        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol)
-    if k == 65 or k == 97: # a - LEFT
-        user_keyrow, user_keycol = updateDirection(4, user_keyrow, user_keycol)
-    if k == 84 or k == 115: # s - DOWN
-        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
-    if k == 68 or k == 100: # d - RIGHT
         user_keyrow, user_keycol = updateDirection(2, user_keyrow, user_keycol)
+    if k == 65 or k == 97: # a - LEFT
+        user_keyrow, user_keycol = updateDirection(0, user_keyrow, user_keycol)
+    if k == 84 or k == 115: # s - DOWN
+        user_keyrow, user_keycol = updateDirection(3, user_keyrow, user_keycol)
+    if k == 68 or k == 100: # d - RIGHT
+        user_keyrow, user_keycol = updateDirection(1, user_keyrow, user_keycol)
+    if k == 32: # d - SPACE
+        text = enterCharacter(user_keyrow, user_keycol, keydict, text)
     cursor_x, cursor_y = updateCursor(user_keyrow, user_keycol)
 
 cap.release()
